@@ -16,7 +16,7 @@ module Griddler
         end.map do |event|
           {
             to: recipients(:to, event) || '',
-            cc: recipients(:cc, event),
+            cc: recipients(:cc, event) || '',
             bcc: resolve_bcc(event),
             headers: event[:headers],
             from: full_email([ event[:from_email], event[:from_name] ]),
@@ -46,7 +46,7 @@ module Griddler
 
       def resolve_bcc(event)
         email = event[:email]
-        if !event[:to].map(&:first).include?(email) && event[:cc] && !event[:cc].map(&:first).include?(email)
+        if event[:to] && !event[:to].map(&:first).include?(email) && event[:cc] && !event[:cc].map(&:first).include?(email)
           [full_email([email, email.split("@")[0]])]
         else
           []

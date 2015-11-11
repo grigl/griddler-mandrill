@@ -15,7 +15,7 @@ module Griddler
           event[:spf].present? && (event[:spf][:result] == 'pass' || event[:spf][:result] == 'neutral')
         end.map do |event|
           {
-            to: recipients(:to, event),
+            to: recipients(:to, event) || '',
             cc: recipients(:cc, event),
             bcc: resolve_bcc(event),
             headers: event[:headers],

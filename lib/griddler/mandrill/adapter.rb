@@ -20,12 +20,12 @@ module Griddler
             bcc: resolve_bcc(event),
             headers: event[:headers],
             from: full_email([ event[:from_email], event[:from_name] ]),
-            subject: event[:subject],
+            subject: event[:subject] '',
             text: event[:text] || '',
             html: event[:html] || '',
             raw_body: event[:raw_msg],
             attachments: attachment_files(event),
-            email: event[:email] # the email address where Mandrill received the message
+            email: event[:email] || '' # the email address where Mandrill received the message
           }
         end
       end
@@ -57,8 +57,10 @@ module Griddler
         email = contact_info[0]
         if contact_info[1]
           "#{contact_info[1]} <#{email}>"
-        else
+        elsif email
           email
+        else
+          ''
         end
       end
 

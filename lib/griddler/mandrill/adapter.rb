@@ -53,7 +53,7 @@ module Griddler
         end
       end
 
-      def headers
+      def headers(event)
         headers = event[:headers]
         if headers.present?
           headers

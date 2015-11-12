@@ -18,7 +18,7 @@ module Griddler
             to: to(event),
             cc: recipients(:cc, event) || [],
             bcc: resolve_bcc(event),
-            headers: event[:headers],
+            headers: event[:headers] || {},
             from: from(event),
             subject: event[:subject] || '',
             text: event[:text] || '',

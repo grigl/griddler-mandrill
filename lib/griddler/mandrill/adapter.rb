@@ -36,10 +36,12 @@ module Griddler
 
       def to(event)
         recipients = recipients(:to, event)
-        if recipients
+        if recipients.present?
           recipients
         elsif event[:email]
-          [email]
+          [event[:email]]
+        else
+          []
         end
       end
 

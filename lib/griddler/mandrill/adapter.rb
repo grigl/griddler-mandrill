@@ -19,7 +19,7 @@ module Griddler
             cc: recipients(:cc, event) || [],
             bcc: resolve_bcc(event),
             headers: event[:headers],
-            from: full_email([ event[:from_email], event[:from_name] ]),
+            from: from(event),
             subject: event[:subject] || '',
             text: event[:text] || '',
             html: event[:html] || '',
@@ -42,6 +42,14 @@ module Griddler
           [event[:email]]
         else
           []
+        end
+      end
+
+      def from(event)
+        if event[:from_email]
+          full_email([event[:from_email], event[:from_name]])
+        else
+          /From:\s[a-zA-Z]*\s<([a-zA-Z_\d]*@[a-zA-Z_\d]*.[a-zA-Z_\d]*)>/.match(event[:raw_msg])[1]
         end
       end
 

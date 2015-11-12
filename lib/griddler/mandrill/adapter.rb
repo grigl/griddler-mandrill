@@ -20,7 +20,7 @@ module Griddler
             bcc: resolve_bcc(event),
             headers: event[:headers],
             from: full_email([ event[:from_email], event[:from_name] ]),
-            subject: event[:subject] '',
+            subject: event[:subject] || '',
             text: event[:text] || '',
             html: event[:html] || '',
             raw_body: event[:raw_msg],

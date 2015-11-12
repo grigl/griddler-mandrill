@@ -15,8 +15,8 @@ module Griddler
           event[:spf].present? && (event[:spf][:result] == 'pass' || event[:spf][:result] == 'neutral')
         end.map do |event|
           {
-            to: recipients(:to, event) || '',
-            cc: recipients(:cc, event) || '',
+            to: to(event),
+            cc: recipients(:cc, event) || [],
             bcc: resolve_bcc(event),
             headers: event[:headers],
             from: full_email([ event[:from_email], event[:from_name] ]),
@@ -33,6 +33,14 @@ module Griddler
       private
 
       attr_reader :params
+
+      def to(event)
+        if recipients
+          recipients(:to, event)
+        elsif event[:email]
+          [email]
+        end
+      end
 
       def events
         @events ||= ActiveSupport::JSON.decode(params[:mandrill_events]).map { |event|

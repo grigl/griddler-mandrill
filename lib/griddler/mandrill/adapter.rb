@@ -35,8 +35,9 @@ module Griddler
       attr_reader :params
 
       def to(event)
+        recipients = recipients(:to, event)
         if recipients
-          recipients(:to, event)
+          recipients
         elsif event[:email]
           [email]
         end

@@ -36,10 +36,10 @@ module Griddler
 
       def text(event)
         mail_obj = Mail.new(event[:raw_msg])
-        if event[:text].present?
-          event[:text]
-        elsif mail_obj.text_part.present?
+        if strange_email?(event)
           mail_obj.text_part.decode_body.force_encoding('utf-8')
+        elsif mail_obj.text_part.present?
+          event[:text]
         else
           ''
         end
@@ -47,10 +47,10 @@ module Griddler
 
       def html(event)
         mail_obj = Mail.new(event[:raw_msg])
-        if event[:html].present?
-          event[:html]
-        elsif mail_obj.html_part.present?
+        if strange_email?(event)
           mail_obj.html_part.decode_body.force_encoding('utf-8')
+        elsif mail_obj.html_part.present?
+          event[:html]
         else
           ''
         end
@@ -82,6 +82,10 @@ module Griddler
         else
           {}
         end
+      end
+
+      def strange_email?(event)
+        !event[:headers].present? || !event[:to].present?
       end
 
       def events

@@ -38,7 +38,7 @@ module Griddler
         mail_obj = Mail.new(event[:raw_msg])
         if strange_email?(event)
           mail_obj.text_part.decode_body.force_encoding('utf-8')
-        elsif mail_obj.text_part.present?
+        elsif event[:text]
           event[:text]
         else
           ''
@@ -49,7 +49,7 @@ module Griddler
         mail_obj = Mail.new(event[:raw_msg])
         if strange_email?(event)
           mail_obj.html_part.decode_body.force_encoding('utf-8')
-        elsif mail_obj.html_part.present?
+        elsif event[:html]
           event[:html]
         else
           ''

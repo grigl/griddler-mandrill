@@ -21,8 +21,8 @@ module Griddler
             headers: headers(event),
             from: from(event),
             subject: event[:subject] || '',
-            text: event[:text] || '',
-            html: event[:html] || '',
+            text: text(event),
+            html: html(event),
             raw_body: event[:raw_msg],
             attachments: attachment_files(event),
             email: event[:email] || '' # the email address where Mandrill received the message
@@ -33,6 +33,14 @@ module Griddler
       private
 
       attr_reader :params
+
+      def text(event)
+        Mail.new(event[:raw_msg]).text_part.decode_body.force_encoding('utf-8')
+      end
+
+      def html(event)
+        Mail.new(event[:raw_msg]).html_part.decode_body.force_encoding('utf-8')
+      end
 
       def to(event)
         recipients = recipients(:to, event)

@@ -57,7 +57,7 @@ module Griddler
         if event[:from_email]
           full_email([event[:from_email], event[:from_name]])
         else
-          /From:\s[a-zA-Z]*\s<([a-zA-Z_\d]*@[a-zA-Z_\d]*.[a-zA-Z_\d]*)>/.match(event[:raw_msg])[1]
+          Mail.new(event[:raw_msg]).from[0]
         end
       end
 

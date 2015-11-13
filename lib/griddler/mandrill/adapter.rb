@@ -35,11 +35,25 @@ module Griddler
       attr_reader :params
 
       def text(event)
-        Mail.new(event[:raw_msg]).text_part.decode_body.force_encoding('utf-8')
+        mail_obj = Mail.new(event[:raw_msg])
+        if event[:text].present?
+          event[:text]
+        elsif mail_obj.text_part.present?
+          mail_obj.text_part.decode_body.force_encoding('utf-8')
+        else
+          ''
+        end
       end
 
       def html(event)
-        Mail.new(event[:raw_msg]).html_part.decode_body.force_encoding('utf-8')
+        mail_obj = Mail.new(event[:raw_msg])
+        if event[:html].present?
+          event[:html]
+        elsif mail_obj.html_part.present?
+          mail_obj.html_part.decode_body.force_encoding('utf-8')
+        else
+          ''
+        end
       end
 
       def to(event)

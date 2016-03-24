@@ -40,7 +40,7 @@ module Griddler
           if mail_obj.text_part
             mail_obj.text_part.decode_body.force_encoding('utf-8')
           else
-            'can not extract email text'
+            ''
           end
         elsif event[:text]
           event[:text]
@@ -55,7 +55,7 @@ module Griddler
           if mail_obj.html_part
             mail_obj.html_part.decode_body.force_encoding('utf-8')
           else
-            'can not extract email text'
+            ''
           end
         elsif event[:html]
           event[:html]
